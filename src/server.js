@@ -1,7 +1,11 @@
 const express = require("express");
 const routes = require("./routes");
 
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, 'src', 'environments', `.env.${process.env.NODE_ENV}`) });
 require("./database");
+
+const port = process.env.PORT || 3333;
 
 const app = express();
 
@@ -9,4 +13,4 @@ const app = express();
 app.use(express.json());
 app.use(routes);
 
-app.listen(3333, () => console.log("Server is running on port 3333"));
+app.listen(port, () => console.log(`Server is running on port ${port}`));
