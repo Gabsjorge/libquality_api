@@ -29,29 +29,39 @@ module.exports = {
     },
 
     async getIssuesOpenTime(req, res) {
-        console.log(req.params);
-        const { owner, repo } = req.params;
+        const { owner, repo, totalIssues } = req.params;
 
-        const totalIssues = this.getIssuesCount(req, res);
-        
         // Sets all auxiliary functions
-        const convertTime = () => {
 
+        // Converts timestamp into date in miliseconds
+        const convertTime = (date) => {
+            return Date.parse(date);
         };
-
+        
         const getTimeDiff = (time) => {
             const now = Date.now();
-
-            return now - convertTime(time);
+            let diff = now - time;
+        
+            diff = diff/(1000*60*60*24);
+        
+            return Math.floor(diff);
         };
 
-        const avgIssueTime = () => {
-
+        const avgIssueTime = (array) => {
+            const numOfTimes = array.length;
+            const sumOFTimes = array.reduce( (acc, curr) => acc + curr);
+        
+            return sumOFTimes / numOfTimes;
         };
 
         // std stands for Standard Deviation Time
-        const stdIssueTime = () => {
-
+        const stdIssueTime = (array) => {
+            const avg = avgIssueTime(array);
+            const numOfTimes = array.length;
+      
+            let variance = array.reduce( (acc, curr) => acc + Math.pow(avg - curr, 2) / numOfTimes, 0);
+      
+            return Math.sqrt(variance);
         };
 
         /* 
@@ -65,33 +75,55 @@ module.exports = {
         * Because Axios is Promises-based to make requests, I'll use axios.all() to execute all
         * GitHub requests needed per page 
         */ 
+
         const pageRequest = (page) => {
             return axios({
                 method: 'get',
                 url: baseURL + `${owner}/${repo}/issues?state=open&per_page=100/${page}`
             })
+            .then(response => {
+              let diffTimePerPage = response.data.map( issue => {
+                let time = issue.created_at;
+
+                time = convertTime(time);
+                return getTimeDiff(time);
+              });
+
+              return diffTimePerPage;
+            })
+            .catch(error => {
+              console.log(error);
+            });
         };
 
         const executeAllRequests = () => {
-            const totalPromises = [];
+            let totalPromises = [];
             
-            for (let page in totalPages) {
-                totalPromises.push(pageRequest(page));
+            for (let page = 0; page < totalPages ; page++) {
+                totalPromises.push(pageRequest(page+1));
             }
 
             return totalPromises;
         }
 
-        
         try {
-            axios.all(executeAllRequests);
-        } catch (error) {
-            throw error;
-        }
+            const response = await axios.all( executeAllRequests() )
+            .then(
+              axios.spread((data) => {
+                  let result = [];
 
-        return res.json({
-            avgTime: avgIssueTime(),
-            stdTime: stdIssueTime()
-        });
+                  data.forEach( item => result.push(item));
+
+                  return result;
+              })
+            );
+
+            return res.json({
+                avgTime: avgIssueTime(response),
+                stdTime: stdIssueTime(response)
+            });
+        } catch (error) {
+            console.log(error);
+        }        
     }
 }

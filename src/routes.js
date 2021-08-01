@@ -12,6 +12,6 @@ routes.post('/users', UserController.store);
 
 // API routes
 routes.get('/:owner/:repo/issues/count', GitHubController.getIssuesCount);
-routes.get('/:owner/:repo/issues/time', GitHubController.getIssuesOpenTime);
+routes.get('/:owner/:repo/issues/:totalIssues/time', GitHubController.getIssuesOpenTime);
 
 module.exports = routes;
