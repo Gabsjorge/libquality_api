@@ -13,8 +13,21 @@
 ## About <a name = "about"></a>
 The objective of this project is to showcase an API, that consumes the [GitHub REST API](https://docs.github.com/en/rest) and produces data to populate an imaginary website. This website shows information related to open issues and its average life time before resolution.
 
+### Techs
+
+- NodeJS: The JavaScript runtime most beloved by the JavaScript community. I didn't choose this, the only requirement for this project was to use NodeJS.
+- PostgreSQL: One of the best relational databases available in the market, completely open source. Has a ton of functionalities, and I chose it because I already work with it in my job.
+- Express: NodeJS framework that is fast, minimalistic, and easy to use. I chose this one because is the framework I mostly use nowadays for API development.
+- Jest: A super famous testing library for NodeJS and Typescript, I chose this one because the community is big, and the documentation is large and complete.
+- Sequelize: A promise based ORM, also super famous for NodeJS application development. Offers a lot of tools for migrations and database related manipulations. I chose this one because it is well documented and has a big community, like Jest.
+
 ### Architecture
-Insert image of architecture here.
+
+![Architecture](/images/Architecture.png)
+
+### Database
+
+![Database](/images/Database.png)
 
 ## Prerequisites <a name = "prerequesites"></a>
 
@@ -73,9 +86,11 @@ Check all the tests that were run and their respective results into the console.
 ## Deployment <a name = "deployment"></a>
 To deploy this project more easily, you should have [Docker](https://www.docker.com/get-started) installed and configured onto the desired machine.
 
-Build the Docker image using the Dockerfile file in this repository, like this:
+Build the Docker image using the Dockerfile file in this repository, located inside deploy folder, like this:
 
 ```
+cd deploy
+
 docker build -t <image name> .
 ```
 
@@ -84,7 +99,7 @@ docker build -t <image name> .
 To run the container, do the following commmand:
 
 ```
-docker run -p 3333:3333 <image name> service postgres start
+docker run -p <desired port>:3333 <image name> -d service postgres start
 ```
 
 ## Contributing <a name = "contributing"></a>
