@@ -1,23 +1,31 @@
 const axios = require("axios").default;
 
 const baseURL = 'https://api.github.com/repos/';
+
 const auth = {
-    username: 'Gabsjorge',
-    password: '',
+    username: process.env.GITHUB_USERNAME,
+    token: process.env.GITHUB_PAT
 };
 
 module.exports = {
     async getIssuesCount(req, res) {
-        console.log(req.params);
         const { owner, repo } = req.params;
 
-        const response = await axios({
-            method: 'get',
-            url: baseURL + `${owner}/${repo}/repos`,
-            // auth,
-        });
+        try {
+            const { data } = await axios({
+                method: 'get',
+                url: baseURL + `${owner}/${repo}`,
+                auth
+            });
 
-        return res.json();
+            return res.json({
+              totalIssues: data.open_issues
+            });
+
+          } catch (error) {
+            console.log(error);
+          }
+            
     },
 
     async getIssuesOpenTime(req, res) {
