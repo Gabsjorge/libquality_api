@@ -55,7 +55,7 @@ npm run dev
 yarn dev
 ```
 
-For API references, check this [Swagger](insert Swagger link).
+For API references, check this [Swagger](https://app.swaggerhub.com/apis-docs/Gabsjorge/LibQualityAPI/1.0.0-oas3).
 
 ## Running Tests <a name = "running_tests"></a>
 To run tests for this project, do the following commands:
