@@ -23,7 +23,10 @@ module.exports = {
             });
 
           } catch (error) {
-            console.log(error);
+
+            return res.json({
+              message: error.response.data.message
+            });
           }
             
     },
@@ -123,7 +126,10 @@ module.exports = {
                 stdTime: stdIssueTime(response)
             });
         } catch (error) {
-            console.log(error);
+
+            return res.json({
+              message: error.response.data.message
+            });
         }        
     }
 }
