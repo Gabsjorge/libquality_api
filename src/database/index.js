@@ -11,4 +11,6 @@ User.init(connection);
 Repository.init(connection);
 Search.init(connection);
 
+Search.associate(connection.models);
+
 module.exports = connection;

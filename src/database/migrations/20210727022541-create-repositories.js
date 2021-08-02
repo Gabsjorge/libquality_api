@@ -17,11 +17,11 @@ module.exports = {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
       },
-      issues_count: {
-        type: Sequelize.DataTypes.INTEGER,
+      created_at: {
+        type: Sequelize.DataTypes.DATE,
         allowNull: false
       },
-      collected_at: {
+      updated_at: {
         type: Sequelize.DataTypes.DATE,
         allowNull: false
       },

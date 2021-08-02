@@ -5,7 +5,6 @@ class Repository extends Model {
         super.init({
             name: DataTypes.STRING,
             owner: DataTypes.STRING,
-            issues_count: DataTypes.INTEGER,
         }, {
             sequelize: connection
         });

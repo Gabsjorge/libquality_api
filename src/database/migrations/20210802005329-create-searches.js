@@ -11,10 +11,10 @@ module.exports = {
       },
       user_id: {
         type: Sequelize.DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: { model: 'users', key: 'id' },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
+        onDelete: 'SET NULL',
       },
       repo_id: {
         type: Sequelize.DataTypes.INTEGER,
@@ -23,7 +23,23 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
+      issues_count: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: true
+      },
+      issues_avg_time: {
+        type: Sequelize.DataTypes.FLOAT,
+        allowNull: true
+      },
+      issues_std_time: {
+        type: Sequelize.DataTypes.FLOAT,
+        allowNull: true
+      },
       created_at: {
+        type: Sequelize.DataTypes.DATE,
+        allowNull: false
+      },
+      updated_at: {
         type: Sequelize.DataTypes.DATE,
         allowNull: false
       },
