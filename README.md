@@ -64,6 +64,16 @@ First, you need to get a PostgreSQL service up, to serve as the database. Do the
 docker-compose up -d
 ```
 
+Then, you need to initialize the migration of the database, with the following command:
+
+```
+sequelize db:migrate
+
+// or
+
+yarn sequelize db:migrate
+```
+
 To run the development application, do the following command:
 
 ```
