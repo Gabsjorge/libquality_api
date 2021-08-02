@@ -11,7 +11,6 @@ module.exports = {
 
     async store(req, res) {
         const { repo_id } = req.params;
-        console.log(req.params);
         const { user_id, issues_count, issues_avg_time, issues_std_time } = req.body;
         let id_user = 0;
 
@@ -31,7 +30,6 @@ module.exports = {
             })
         }
 
-        console.log(repo_id);
         const search = await Search.create({ 
           repo_id,
           user_id: id_user,

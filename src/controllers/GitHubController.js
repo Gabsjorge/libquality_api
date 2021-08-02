@@ -1,6 +1,9 @@
 const axios = require("axios").default;
+const RepositoryController = require("../controllers/RepositoryController");
 
-const baseURL = 'https://api.github.com/repos/';
+const port = process.env.PORT || 3333;
+const gitBaseURL = 'https://api.github.com/repos/';
+const projectBaseURL = `http://localhost:${port}/`;
 
 const auth = {
     username: process.env.GITHUB_USERNAME,
@@ -11,12 +14,56 @@ module.exports = {
     async getIssuesCount(req, res) {
         const { owner, repo } = req.params;
 
+        const body = {
+          name: repo,
+          owner: owner,
+        }
+
         try {
             const { data } = await axios({
                 method: 'get',
-                url: baseURL + `${owner}/${repo}`,
+                url: gitBaseURL + `${owner}/${repo}`,
                 auth
             });
+
+            const repoAlreadyExists = await axios({
+              method: 'get',
+              url: projectBaseURL + `repositories/${repo}/${owner}`,
+            });
+
+            if (!repoAlreadyExists.data.results) {
+              const repo = await axios({
+                method: 'post',
+                url:  projectBaseURL + 'repositories',
+                data: body
+              })
+
+              const search = await axios({
+                method: 'post',
+                url: projectBaseURL + `repositories/${repo.data.id}/searches`,
+                data: {
+                  user_id: null,
+                  issues_count: data.open_issues,
+                  issues_avg_time: null,
+                  issues_std_time: null
+                }
+              });
+              
+            } else {
+              const repoId = repoAlreadyExists.data.id;
+
+              const search = await axios({
+                method: 'post',
+                url: projectBaseURL + `repositories/${repoId}/searches`,
+                data: {
+                  user_id: null,
+                  issues_count: data.open_issues,
+                  issues_avg_time: null,
+                  issues_std_time: null
+                }
+              });
+            }
+
 
             return res.json({
               totalIssues: data.open_issues
@@ -24,7 +71,7 @@ module.exports = {
 
           } catch (error) {
 
-            return res.json({
+            return res.status(404).json({
               message: error.response.data.message
             });
           }
@@ -33,6 +80,11 @@ module.exports = {
 
     async getIssuesOpenTime(req, res) {
         const { owner, repo, totalIssues } = req.params;
+
+        const body = {
+          name: repo,
+          owner: owner,
+        }
 
         // Sets all auxiliary functions
 
@@ -82,7 +134,7 @@ module.exports = {
         const pageRequest = (page) => {
             return axios({
                 method: 'get',
-                url: baseURL + `${owner}/${repo}/issues?state=open&per_page=100/${page}`
+                url: gitBaseURL + `${owner}/${repo}/issues?state=open&per_page=100/${page}`
             })
             .then(response => {
               let diffTimePerPage = response.data.map( issue => {
@@ -121,13 +173,51 @@ module.exports = {
               })
             );
 
+            const repoAlreadyExists = await axios({
+              method: 'get',
+              url: projectBaseURL + `repositories/${repo}/${owner}`,
+            });
+
+            if (!repoAlreadyExists.data.results) {
+              const repo = await axios({
+                method: 'post',
+                url:  projectBaseURL + 'repositories',
+                data: body
+              })
+
+              const search = await axios({
+                method: 'post',
+                url: projectBaseURL + `repositories/${repo.data.id}/searches`,
+                data: {
+                  user_id: null,
+                  issues_count: null,
+                  issues_avg_time: avgIssueTime(response),
+                  issues_std_time: stdIssueTime(response)
+                }
+              });
+              
+            } else {
+              const repoId = repoAlreadyExists.data.id;
+
+              const search = await axios({
+                method: 'post',
+                url: projectBaseURL + `repositories/${repoId}/searches`,
+                data: {
+                  user_id: null,
+                  issues_count: null,
+                  issues_avg_time: avgIssueTime(response),
+                  issues_std_time: stdIssueTime(response)
+                }
+              });
+            }
+
             return res.json({
                 avgTime: avgIssueTime(response),
                 stdTime: stdIssueTime(response)
             });
         } catch (error) {
 
-            return res.json({
+            return res.status(404).json({
               message: error.response.data.message
             });
         }        
