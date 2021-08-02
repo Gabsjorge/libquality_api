@@ -58,6 +58,12 @@ yarn install
 ```
 
 ## Usage <a name = "usage"></a>
+First, you need to get a PostgreSQL service up, to serve as the database. Do the command below:
+
+```
+docker-compose up -d
+```
+
 To run the development application, do the following command:
 
 ```
