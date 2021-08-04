@@ -15,11 +15,11 @@ The objective of this project is to showcase an API, that consumes the [GitHub R
 
 ### Techs
 
-- NodeJS: The JavaScript runtime most beloved by the JavaScript community. I didn't choose this, the only requirement for this project was to use NodeJS.
-- PostgreSQL: One of the best relational databases available in the market, completely open source. Has a ton of functionalities, and I chose it because I already work with it in my job.
-- Express: NodeJS framework that is fast, minimalistic, and easy to use. I chose this one because is the framework I mostly use nowadays for API development.
-- Jest: A super famous testing library for NodeJS and Typescript, I chose this one because the community is big, and the documentation is large and complete.
-- Sequelize: A promise based ORM, also super famous for NodeJS application development. Offers a lot of tools for migrations and database related manipulations. I chose this one because it is well documented and has a big community, like Jest.
+- **NodeJS:** The JavaScript runtime most beloved by the JavaScript community. I didn't choose this, the only requirement for this project was to use NodeJS.
+- **PostgreSQL:** One of the best relational databases available in the market, completely open source. Has a ton of functionalities, and I chose it because I already work with it in my job.
+- **Express:** NodeJS framework that is fast, minimalistic, and easy to use. I chose this one because is the framework I mostly use nowadays for API development.
+- **Jest:** A super famous testing library for NodeJS and Typescript, I chose this one because the community is big, and the documentation is large and complete.
+- **Sequelize:** A promise based ORM, also super famous for NodeJS application development. Offers a lot of tools for migrations and database related manipulations. I chose this one because it is well documented and has a big community, like Jest.
 
 ### Architecture
 
