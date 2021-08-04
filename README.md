@@ -42,7 +42,7 @@ npm --version
 ```
 There is an alternative to npm available (which I personally use), that is [Yarn](https://yarnpkg.com/getting-started/install).
 
-Before proceding to the next section, configure the `.env` file located inside the environment folder, for the desired environment. The `.env.sample` file shows all the necessary variables that need to be filled.
+Before proceding to the next section, configure the `.env` file located inside the environment folder, for the desired environment. The `.env.sample` file shows all the necessary variables that need to be filled. One of the needed infos is a Github personal access token, for more information in how to create one, use this [link](https://docs.github.com/pt/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
 ## Installation <a name = "installation"></a>
 To run the application inside your computer, do the following steps.
@@ -87,7 +87,7 @@ yarn dev
 For API references, check this [Swagger](https://app.swaggerhub.com/apis-docs/Gabsjorge/LibQualityAPI/1.0.0-oas3).
 
 ## Running Tests <a name = "running_tests"></a>
-To run tests for this project, do the following commands:
+To run tests for this project, make sure you start the development application, and then do the following commands:
 
 ```
 npm run test
